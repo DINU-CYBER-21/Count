@@ -15,11 +15,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const urls = [
-  'https://freedom-443535f501b6.herokuapp.com/code/active'
+  'https://sulaminideta-7e1382736da3.herokuapp.com/code/active',
+  'https://freedom-443535f501b6.herokuapp.com/code/active',
+  'https://sulaminideta5-b8bc2293d779.herokuapp.com/code/active'
 ];
 
 app.get('/', (req, res) => {
-  res.send(`<!DOCTYPE html>
+  res.send(`
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -168,7 +171,8 @@ app.get('/', (req, res) => {
   </script>
 
 </body>
-</html>    
+</html>
+
   `);
 });
 
