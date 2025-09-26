@@ -24,7 +24,6 @@ app.get('/', (req, res) => {
   <meta charset="UTF-8">
   <title>ANGEL MINI BOT COUNT</title>
   <style>
-    /* Base Reset */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -37,7 +36,6 @@ app.get('/', (req, res) => {
       overflow: hidden;
     }
 
-    /* Particle Background */
     .particles {
       position: absolute;
       width: 100%;
@@ -45,7 +43,6 @@ app.get('/', (req, res) => {
       z-index: 0;
     }
 
-    /* Dragon Card */
     .card {
       position: relative;
       z-index: 1;
@@ -76,7 +73,26 @@ app.get('/', (req, res) => {
       animation: fadeIn 3s ease-in-out infinite alternate;
     }
 
-    /* Animations */
+    /* Error Effect */
+    .error {
+      color: #ff2222 !important;
+      text-shadow: 0 0 10px #ff0000, 0 0 20px #ff4444;
+      animation: errorShake 0.3s infinite, errorFlicker 1s infinite alternate;
+    }
+
+    @keyframes errorShake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-3px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes errorFlicker {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
     @keyframes pulseAura {
       0% { box-shadow: 0 0 25px rgba(255, 0, 0, 0.8), inset 0 0 10px rgba(255, 0, 0, 0.4); }
       100% { box-shadow: 0 0 60px rgba(255, 20, 20, 1), inset 0 0 25px rgba(255, 50, 50, 0.6); }
@@ -92,33 +108,23 @@ app.get('/', (req, res) => {
       to { opacity: 1; letter-spacing: 4px; }
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
-      .card {
-        padding: 25px 30px;
-      }
-      .card h1 {
-        font-size: 2.5rem;
-      }
-      .card p {
-        font-size: 1rem;
-      }
+      .card { padding: 25px 30px; }
+      .card h1 { font-size: 2.5rem; }
+      .card p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Particle Canvas -->
   <canvas class="particles" id="particles"></canvas>
 
-  <!-- Dragon Card -->
   <div class="card">
     <h1 id="count">0</h1>
     <p>ANGEL MINI BOT COUNT</p>
   </div>
 
   <script>
-    // Count Animation
     function animateValue(id, start, end, duration) {
       let obj = document.getElementById(id);
       let range = end - start;
@@ -136,9 +142,12 @@ app.get('/', (req, res) => {
     fetch('/code/active')
       .then(res => res.json())
       .then(data => animateValue("count", 0, data.totalCount, 2500))
-      .catch(() => document.getElementById('count').textContent = '🔥Error🔥');
+      .catch(() => {
+        let c = document.getElementById('count');
+        c.textContent = '🔥 ERROR 🔥';
+        c.classList.add('error');
+      });
 
-    // Dragon Flame Particles
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
@@ -152,7 +161,7 @@ app.get('/', (req, res) => {
         r: Math.random() * 3 + 1,
         dx: (Math.random() - 0.5) * 1.2,
         dy: (Math.random() - 0.5) * 1.2,
-        color: `rgba(${200 + Math.random()*55}, ${Math.random()*50}, 0, 0.9)`
+        color: \`rgba(\${200 + Math.random()*55}, \${Math.random()*50}, 0, 0.9)\`
       });
     }
 
@@ -180,7 +189,6 @@ app.get('/', (req, res) => {
 
 </body>
 </html>
-
   `);
 });
 
@@ -190,12 +198,12 @@ app.get('/code/active', async (req, res) => {
       fetch(url)
         .then(response => response.json())
         .catch(err => {
-          console.error(`Error fetching from ${url}:`, err);
+          console.error(\`Error fetching from \${url}:\`, err);
           return { count: 0 };
         })
     );
-const results = await Promise.all(fetchPromises);
-const totalCount = results.reduce((sum, data) => sum + (data.count || 0), 0);
+    const results = await Promise.all(fetchPromises);
+    const totalCount = results.reduce((sum, data) => sum + (data.count || 0), 0);
     res.json({ totalCount });
   } catch (err) {
     console.error('Fetch error:', err);
@@ -204,5 +212,5 @@ const totalCount = results.reduce((sum, data) => sum + (data.count || 0), 0);
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(\`✅ Server running at http://localhost:\${PORT}\`);
 });
