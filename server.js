@@ -198,7 +198,7 @@ app.get('/code/active', async (req, res) => {
       fetch(url)
         .then(response => response.json())
         .catch(err => {
-          console.error(\`Error fetching from \${url}:\`, err);
+          console.error('Error fetching from');
           return { count: 0 };
         })
     );
