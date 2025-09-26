@@ -15,9 +15,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const urls = [
-  'https://sulaminideta-7e1382736da3.herokuapp.com/code/active',
-  'https://freedom-443535f501b6.herokuapp.com/code/active',
-  'https://sulaminideta5-b8bc2293d779.herokuapp.com/code/active'
+  'https://anglemini-c0a8e0724bad.herokuapp.com/code/active',
+  'https://anglemini-c0a8e0724bad.herokuapp.com/code/active'
 ];
 
 app.get('/', (req, res) => {
